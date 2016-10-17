@@ -1,0 +1,33 @@
+@font-face{
+    font-family: balon;
+    src: url(../../fonts/balon.TTF) format("truetype");    
+}
+@font-face{
+    font-family: myriad;
+    src: url(../../fonts/myriad.ttf) format("truetype");    
+}
+@font-face{
+    font-family: amelian;
+    src: url(../../fonts/amelian.TTF) format("truetype");    
+}
+@font-face{
+    font-family: tekno;
+    src: url(../../fonts/tekno.TTF) format("truetype");    
+}
+@font-face{
+    font-family: belwe;
+    src: url(../../fonts/belwe.TTF) format("truetype");    
+}
+@font-face{
+    font-family: bismili;
+    src: url(../../fonts/BISMILI.TTF) format("truetype");
+}
+@font-face{
+    font-family: bismilu;
+    src: url(../../fonts/BISMILU.TTF) format("truetype");
+}
+
+.batas-atas{
+    height: 95px;
+}
+
