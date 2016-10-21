@@ -13,7 +13,7 @@
         <div class="well">
             <form name="pendaftaran" method="POST" action="<?php echo site_url().'login/cek_login' ?>" class="form-horizontal">
                 <fieldset>
-                    <legend>Formulir Login</legend>
+                    <legend>Halaman Login</legend>
                         <div class="form-group">
                             <label for="username" class="col-md-3 control-label">Username</label>
                             <div class="col-md-9">

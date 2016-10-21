@@ -57,6 +57,14 @@ class Member extends CI_Controller
        $data['main']    = 'login';
        $this->load->view('template', $data);
    }
+
+   public function requestPendaftaran($value='')
+   {
+          $data['main']    = 'member/request_pendaftaran';
+          $data['sidebar'] = 'sidebar';
+        
+          $this->load->view('template', $data);
+   }
    
    
    

@@ -24,7 +24,29 @@
     <link rel="stylesheet/less" type="text/css" href="<?php echo base_url().'assets/less/bootswatch.less' ?>" />
     <link rel="stylesheet/less" type="text/css" href="<?php echo base_url().'assets/less/variables.less' ?>" />
 
+    <script>
+      function karakter(e) {
+        if (e.keyCode == 34) { return false}
+          else if (e.keyCode == 35){return false}
+          else if (e.keyCode == 61){return false}
+          else if (e.keyCode == 39){return false}
+          else if (e.keyCode == 38){return false}
+          else if (e.keyCode == 45){return false}
+          else if (e.keyCode == 94){return false}
+        else{return true;}
+      }
+      </script>
+
+      <script type="text/javascript">
+        function runScript(e){
+        
+            if(e.keyCode<48 || e.keyCode>57){
+                return false
+            }        
+        }
     
+    </script>
+
 </head>
 
 <body>
@@ -56,7 +78,7 @@
             <li><a href="<?php echo base_url().'beranda/prosedur'; ?>">Prosedur</a></li>
             <li><a href="<?php echo base_url().'beranda/agenda'; ?>">Agenda</a></li>
             <?php if($this->session->userdata('member') == false){ ?>
-                <li><a href="<?php echo base_url().'beranda/pendaftaran'; ?>">Pendaftaran</a></li>
+                <li><a href="<?php echo base_url().'buatakun'; ?>">Pendaftaran Akun</a></li>
             <?php } else { ?>
                 <li><a href="<?php echo base_url().'member'; ?>">AKTIF AREA</a></li>
             <?php } ?>
@@ -109,7 +131,7 @@
         <div class="col-md-12">
             <div class="copy">
                 <hr style="margin-bottom: -5px;" />
-				<h5>Developed by ICT Nur Hidayah <small>Copyright &copy; 2014</small></h5>
+				<h5>Developed by ICT Nur Hidayah <small>Copyright &copy; <?=date("Y")."/".random_string('numeric', 3)?></small></h5>
             </div>
         </div>
     </div>

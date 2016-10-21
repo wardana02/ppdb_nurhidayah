@@ -7,6 +7,57 @@ class Login_mdl extends CI_Model
         parent::__construct();
               
     }
+
+    //ency pass
+    function do_ency_pass($pass)
+       {
+            $secret    = "qpwoeiruty12345";
+            $pass      = md5($pass);
+            $password  = md5($pass.$secret.$pass);
+            return $password;
+       }
+
+
+        // cek status user, login atau tidak?
+    public function cek_user()
+    {
+        $username = $this->input->post('username');
+        $q        = $this->input->post('password');
+
+        //untuk mengatasi injection
+        $a = $username;
+        $w = $q;
+        $b = $this->do_ency_pass($w);
+        //echo("$username $password");exit();
+        $query = $this->db->query("SELECT 
+            *
+            FROM data_account 
+            where username='$a' AND password='$b'
+            AND aktif='1'");
+        if ($query->num_rows() == 1)
+        {        
+            $DT=date("Y-m-d H:i:s");    
+            $data = array(  
+                            'login'     => TRUE,
+                            'login_time' => $DT,
+                            'member'     => 'aktif',
+                            );
+
+            // buat data session jika login benar
+            $this->session->set_userdata($data);
+            
+            //$I = $query->row()->id_user;
+            //$this->db->query("UPDATE user SET last_log='$DT' WHERE id_user='$I'");
+            
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+
     public function cek_data_login($username, $password)
     {
         $this->db->where('username', $username);

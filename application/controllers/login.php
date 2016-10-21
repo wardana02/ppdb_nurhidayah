@@ -66,7 +66,6 @@ class Login extends CI_Controller
         $secret    = "qpwoeiruty12345";
         $pass      = md5($pass);
         $password  = md5($pass.$secret.$pass);
-        //echo $password;exit();
         return $password;
    }
    
@@ -94,8 +93,8 @@ class Login extends CI_Controller
     
    function cek_login()
    {
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|callback_cek_username');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|callback_cek_password');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
         //$this->form_validation->set_rules('mycaptcha', 'Kode Validasi', 'trim|required|callback_check_captcha_login');
         if($this->form_validation->run() == FALSE)
         {
@@ -103,16 +102,32 @@ class Login extends CI_Controller
         }
         else
         {
+            // cek di database sukses
+                if($this->login->cek_user())
+                { 
+                    $identitas = $this->db->get_where('data_siswa', array('username'=>$this->input->post('username')))->row();
             
-           $d = $this->db->get_where('data_siswa', array('username'=>$this->input->post('username')))->row();
-            
+                  $data_sess = array('id_siswa'   => $identitas->id_siswa,
+                                     'namalengkap'=> $identitas->namalengkap,
+                                     'kelamin'    => $identitas->kelamin);
+                    $this->session->set_userdata($data_sess);
+                    redirect('member');
+                }
+                // cek database gagal
+                else
+                {
+                    $this->data['pesan'] = 'Username atau Password salah Om.';
+                    $this->load->view('backend/admin/login/index.php', $this->data);
+                }
+           //$d = $this->db->get_where('data_siswa', array('username'=>$this->input->post('username')))->row();
+            /*
             $data_sess = array('login'      => TRUE,
                                'member'     => 'aktif',
                                'id_siswa'   => $d->id_siswa,
                                'namalengkap'=> $d->namalengkap,
                                'kelamin'    => $d->kelamin);
             $this->session->set_userdata($data_sess);
-            redirect(site_url().'member');
+            redirect(site_url().'member');*/
             
         }
    }
