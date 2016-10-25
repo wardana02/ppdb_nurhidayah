@@ -34,17 +34,17 @@ class Member_mdl extends CI_Model
     
     function view_dataayah()
     {
-        return $this->db->get_where('data_ayah', array('id_siswa'=>$this->session->userdata('id_siswa')))->row();
+        return $this->db->get_where('data_ayah', array('id_akun'=>$this->session->userdata('id_akun')))->row();
     }
     
     function view_dataibu()
     {
-        return $this->db->get_where('data_ibu', array('id_siswa'=>$this->session->userdata('id_siswa')))->row();
+        return $this->db->get_where('data_ibu', array('id_akun'=>$this->session->userdata('id_akun')))->row();
     }
     
     function view_dataalamat()
     {
-        return $this->db->get_where('data_alamat', array('id_siswa'=>$this->session->userdata('id_siswa')))->row();
+        return $this->db->get_where('data_alamat', array('id_akun'=>$this->session->userdata('id_akun')))->row();
     }
     
     function view_datasaudara()
@@ -56,7 +56,17 @@ class Member_mdl extends CI_Model
     {
         return $this->db->get_where('data_biaya', array('id_siswa'=>$this->session->userdata('id_siswa')))->row();
     }
-    
+
+    function get_anak()
+    {
+        return $this->db->get_where('data_anak', array('id_akun'=>$this->session->userdata('id_akun')))->result();
+    }
+
+    function get_id_anak($id)
+    {
+        return $this->db->get_where('data_anak', array('id_saudara'=>$id))->row();
+    }
+
     function tahun()
     {
         $thn[''] = 'thn';
@@ -195,7 +205,7 @@ class Member_mdl extends CI_Model
                       'bacaanquran'=>$this->input->post('bacaanquran'),
                       'haji'=>$this->input->post('haji'),
                       'nohp'=>$this->input->post('nohp'));
-        $this->db->where('id_siswa', $this->session->userdata('id_siswa'));
+        $this->db->where('id_akun', $this->session->userdata('id_akun'));
         $this->db->update($namatable, $data);
         $this->session->set_flashdata('update_ortu', 'Perubahan data berhasil disimpan');
     }
@@ -215,14 +225,14 @@ class Member_mdl extends CI_Model
                       'jarakkesekolah'=>$this->input->post('jarakkesekolah'),
                       'tlp'=>$this->input->post('tlp'),
                       'transportasi'=>$this->input->post('transportasi'));
-        $this->db->where('id_siswa', $this->session->userdata('id_siswa'));
+        $this->db->where('id_akun', $this->session->userdata('id_akun'));
         $this->db->update('data_alamat', $data);
         $this->session->set_flashdata('update_alamat', 'Perubahan data berhasil disimpan');
     }
     
     function update_datasaudara()
     {
-        $data = array('id_siswa'=>$this->session->userdata('id_siswa'),
+        $data = array('id_akun'=>$this->session->userdata('id_akun'),
                       'namalengkap'=>$this->input->post('namalengkap'),
                       'kelamin'=>$this->input->post('kelamin'),
                       'ttl'=>$this->input->post('ttl'),
@@ -230,6 +240,18 @@ class Member_mdl extends CI_Model
                       'keterangan'=>$this->input->post('keterangan'));
         $this->db->insert('data_saudara', $data);
         $this->session->set_flashdata('update_saudara', 'Perubahan data berhasil disimpan');
+    }
+
+    function update_dataanak()
+    {
+        $data = array('id_akun'=>$this->session->userdata('id_akun'),
+                      'namalengkap'=>$this->input->post('namalengkap'),
+                      'kelamin'=>$this->input->post('kelamin'),
+                      'tmp_lahir'=>$this->input->post('ttl'),
+                      'sekolah'=>$this->input->post('sekolah'),
+                      'keterangan'=>$this->input->post('keterangan'));
+        $this->db->insert('data_anak', $data);
+        $this->session->set_flashdata('update_anak', 'Perubahan data berhasil disimpan');
     }
     
     function update_databiaya()

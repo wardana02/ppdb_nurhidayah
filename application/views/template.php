@@ -23,7 +23,8 @@
     
     <link rel="stylesheet/less" type="text/css" href="<?php echo base_url().'assets/less/bootswatch.less' ?>" />
     <link rel="stylesheet/less" type="text/css" href="<?php echo base_url().'assets/less/variables.less' ?>" />
-
+    <link href=<?=base_url("assets/admin/font-awesome/css/font-awesome.css");?> rel="stylesheet" />
+    
     <script>
       function karakter(e) {
         if (e.keyCode == 34) { return false}

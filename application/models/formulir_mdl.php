@@ -91,12 +91,12 @@ class Formulir_mdl extends CI_Model
 /** ========= DATA ORTU ====================== **/    
     function data_ortu($id_siswa, $nama_tabel)
     {
-        return $this->db->get_where($nama_tabel, array('id_siswa'=>$id_siswa))->row();
+        return $this->db->get_where($nama_tabel, array('id_akun'=>$id_siswa))->row();
     }
     
     function form_dataortu($id_siswa, $nama_tabel)
     {
-        $d = $this->db->get_where($nama_tabel, array('id_siswa'=>$id_siswa))->row();
+        $d = $this->db->get_where($nama_tabel, array('id_akun'=>$id_siswa))->row();
         $nik = array('name'=>'nik', 'value'=>$d->nik, 'class'=>'form-control');
         $namalengkap = array('name'=>'namalengkap', 'value'=>$d->namalengkap, 'class'=>'form-control');
         $tempatlahir = array('name'=>'tempatlahir', 'value'=>$d->tempatlahir, 'class'=>'form-control');
@@ -139,9 +139,9 @@ class Formulir_mdl extends CI_Model
     }
 
 /** =============== DATA ALAMAT ================ **/    
-    function form_dataalamat($id_siswa)
+    function form_dataalamat($id_akun)
     {
-        $d = $this->db->get_where('data_alamat', array('id_siswa'=>$id_siswa))->row();
+        $d = $this->db->get_where('data_alamat', array('id_akun'=>$id_akun))->row();
         $dusun = array('name'=>'dusun', 'value'=>$d->dusun, 'class'=>'form-control');
         $rt    = array('name'=>'rt', 'value'=>$d->rt, 'class'=>'form-control');
         $rw    = array('name'=>'rw', 'value'=>$d->rw, 'class'=>'form-control');
@@ -201,6 +201,35 @@ class Formulir_mdl extends CI_Model
     }
     
     function validasi_datasaudara()
+    {
+        $val = array(array('field'=>'namalengkap', 'label'=>'Nama Lengkap', 'rules'=>'trim|required|max_length[50]|xss_clean'),
+                     array('field'=>'kelamin', 'label'=>'Jenis Kelamin', 'rules'=>'trim|required|max_length[10]|xss_clean'),
+                     array('field'=>'ttl', 'label'=>'TTL', 'rules'=>'trim|required|max_length[50]|xss_clean'),
+                     array('field'=>'sekolah', 'label'=>'Sekolah', 'rules'=>'trim|required|max_length[50]|xss_clean'),
+                     array('field'=>'keterangan', 'label'=>'Keterangan', 'rules'=>'trim|required|max_length[100]|xss_clean'));
+        return $val;
+    }
+
+    /** =============DATA SAUDARA ===================== **/
+    function form_dataanak()
+    {
+        $nama    = array('name'=>'namalengkap', 'value'=>$this->input->post('namalengkap'), 'class'=>'form-control');
+        $kelamin = array('name'=>'kelamin', 'value'=>$this->input->post('kelamin'), 'class'=>'form-control');
+        $ttl     = array('name'=>'ttl', 'value'=>$this->input->post('ttl'), 'class'=>'form-control');
+        $sekolah = array('name'=>'sekolah', 'value'=>$this->input->post('sekolah'), 'class'=>'form-control');
+        $keterangan = array('name'=>'keterangan', 'value'=>$this->input->post('keterangan'), 'class'=>'form-control');
+        
+        $r = array();
+        $r['nama']       = $nama;
+        $r['kelamin']    = $kelamin;
+        $r['ttl']        = $ttl;
+        $r['sekolah']    = $sekolah;
+        $r['keterangan'] = $keterangan;
+        
+        return $r;
+    }
+    
+    function validasi_dataanak()
     {
         $val = array(array('field'=>'namalengkap', 'label'=>'Nama Lengkap', 'rules'=>'trim|required|max_length[50]|xss_clean'),
                      array('field'=>'kelamin', 'label'=>'Jenis Kelamin', 'rules'=>'trim|required|max_length[10]|xss_clean'),

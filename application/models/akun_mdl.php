@@ -133,34 +133,59 @@ class Akun_mdl extends CI_Model
         return $b.$tgl.$c;
     }
     
-    function password($thn, $tgl)
+    function password2($thn, $tgl)
     {
         $secret    = "qpwoeiruty12345";
         $pass      = md5('ppdb'.$thn.$tgl);
         $password  = md5($pass.$secret.$pass);
         return $password;
     }
+
+    function password($pass)
+       {
+            $secret    = "qpwoeiruty12345";
+            $pass      = md5($pass);
+            $password  = md5($pass.$secret.$pass);
+            return $password;
+       }
     
     function kd_unik()
     {
-        $k = $this->db->get('kd_unik')->num_rows() + 701;
+        $k = $this->db->query("SELECT * FROM kd_unik where IS_DIGUNAKAN=0 LIMIT 1")->row();
         return $k;
     }
     
     function simpan()
     {
         $data = array('namalengkap'=>$this->input->post('namalengkap'),
+                      'nik'=>$this->input->post('nik'),
                       'nohp'=>$this->input->post('nohp'),
                       'email'=>$this->input->post('email'),
-                      'username'=>$this->username($this->input->post('namalengkap'), $this->input->post('tanggal'), $this->kd_unik()),
+                      'username'=>$this->input->post('email'),
                       'password'=>$this->password($this->input->post('nohp')),
-                      'tgldaftar'=>date('Y-m-d H:i:s')
+                      'tgldaftar'=>date('Y-m-d H:i:s'),
+                      'aktif'=> '1'
                       );
+
         $this->db->trans_start();
         $this->db->insert('data_account', $data);
-        $this->db->insert('kd_unik',$unik);
+        $id = $this->db->insert_id();
+        $dataAyah = array('id_akun' => $id); $this->db->insert('data_ayah', $dataAyah);
+        $dataIbu = array('id_akun' => $id); $this->db->insert('data_ibu', $dataIbu);
+        $dataAlamat = array('id_akun' => $id); $this->db->insert('data_alamat', $dataAlamat);
+
+
         $this->db->trans_complete();
-        //$this->session->set_userdata($data);
+
+        $array = array(
+            'd_username' => $this->input->post('email'),
+            'd_password' => $this->input->post('nohp'),
+            'namaAkun' => $this->input->post('namalengkap'),
+            'id_siswa' => $id
+            );
+        
+        $this->session->set_userdata( $array );
+
         return $data;
     }
     

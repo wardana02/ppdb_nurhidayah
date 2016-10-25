@@ -9,13 +9,10 @@ error_reporting(0);
       <h4>Assalamualaikum wr. wb.</h4>
       <p>
         Yth. Bapak/Ibu orang tua calon Siswa SDIT Nur Hidayah Surakarta, kami ucapkan selamat dan terima kasih atas 
-        partisipasinya dalam Jaring Generasi Emas SDIT eNHa tahun pelajaran 2015/2016. 
+        partisipasinya dalam mendaftarkan Putra/Putri nya ke SDIT Nur Hidayah Surakarta. 
       </p>
-      
       <p>
-        Selanjutnya silakan melaksanakan observasi kesehatan di Poliklinik Nur Hidayah dan melengkapi formulir yang sudah kami sediakan di system ini!
-        Untuk mengisi formulir Bapak/Ibu dapat membuka formulir pada menu di samping, atau juga Bapak Ibu menggunanakan smartphone menu 
-        isian berada di bagian bawah halaman ini.
+        Silahkan Lengkapi Data Diri Bapak dan Ibu pada Formulir dibawah ini, kemudian dapat mengajukan pendaftaran putra/putri sekalian.
       </p>
     </div>
     <!-- DATA SISWA -->
@@ -24,7 +21,7 @@ error_reporting(0);
     <div class="panel-heading" role="tab" id="datasiswa">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <b>Data Siswa</b>
+          <b>Data Orang Tua</b>
         </a>
       </h4>
 
@@ -40,7 +37,7 @@ error_reporting(0);
                 <tbody>
                     <tr><td>NIK</td><td><?php echo $ayah->nik; ?></td><td><?php echo $ibu->nik; ?></td></tr>
                     <tr><td>Nama Lengkap</td><td><?php echo $ayah->namalengkap; ?></td><td><?php echo $ibu->namalengkap; ?></td></tr>
-                    <tr><td>Tempat tanggal Lahir</td><td><?php echo $ayah->tempatlahir.', '.$ayah->tgllahir; ?></td><td><?php echo $ibu->tempatlahir.', '.$ibu->tgllahir; ?></td></tr>
+                    <tr><td>Tempat tanggal Lahir</td><td><?php echo $ayah->tempatlahir.', '.dateindo($ayah->tgllahir); ?></td><td><?php echo $ibu->tempatlahir.', '.dateindo($ibu->tgllahir); ?></td></tr>
                     <tr><td>Pendidikan</td><td><?php echo $ayah->pendidikan; ?></td><td><?php echo $ibu->pendidikan; ?></td></tr>
                     <tr><td>Pekerjaan</td><td><?php echo $ayah->pekerjaan; ?></td><td><?php echo $ibu->pekerjaan; ?></td></tr>
                     <tr><td>Alamat Kantor</td><td><?php echo $ayah->alamatkantor; ?></td><td><?php echo $ibu->alamatkantor; ?></td></tr>

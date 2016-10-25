@@ -17,6 +17,14 @@ class Login_mdl extends CI_Model
             return $password;
        }
 
+    function password($thn, $tgl)
+    {
+        $secret    = "qpwoeiruty12345";
+        $pass      = md5('ppdb'.$thn.$tgl);
+        $password  = md5($pass.$secret.$pass);
+        return $password;
+    }
+
 
         // cek status user, login atau tidak?
     public function cek_user()
@@ -29,11 +37,14 @@ class Login_mdl extends CI_Model
         $w = $q;
         $b = $this->do_ency_pass($w);
         //echo("$username $password");exit();
-        $query = $this->db->query("SELECT 
+        $q = "SELECT 
             *
             FROM data_account 
             where username='$a' AND password='$b'
-            AND aktif='1'");
+            AND aktif='1'";
+            //echo $q;exit();
+        $query = $this->db->query($q);
+        
         if ($query->num_rows() == 1)
         {        
             $DT=date("Y-m-d H:i:s");    
@@ -41,7 +52,11 @@ class Login_mdl extends CI_Model
                             'login'     => TRUE,
                             'login_time' => $DT,
                             'member'     => 'aktif',
+                            'id_akun'    => $query->row()->id_account,
+                            'nama_lengkap'    => $query->row()->namalengkap,
+                            'email'    => $query->row()->email
                             );
+            //print_r($data);exit();
 
             // buat data session jika login benar
             $this->session->set_userdata($data);

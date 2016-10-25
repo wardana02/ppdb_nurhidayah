@@ -30,7 +30,7 @@ class Member extends CI_Controller
    {
        if($this->session->userdata('member') == 'aktif')
        {
-            $this->member_aktif();
+            $this->requestPendaftaran();
        }
        else
        {
@@ -42,6 +42,7 @@ class Member extends CI_Controller
    {
        $this->load->helper('captcha');
         $vals = array(
+                'word'       => random_string('numeric', 4),
                 'img_path'	 => './captcha/',
                 'img_url'	 => base_url().'captcha/',
                 'font_path'  => './system/fonts/impact.ttf',
@@ -62,6 +63,8 @@ class Member extends CI_Controller
    {
           $data['main']    = 'member/request_pendaftaran';
           $data['sidebar'] = 'sidebar';
+          $data['ayah'] = $this->member->view_dataayah();
+          $data['ibu']  = $this->member->view_dataibu();
         
           $this->load->view('template', $data);
    }
@@ -136,8 +139,8 @@ class Member extends CI_Controller
    {
        if($this->session->userdata('member') == 'aktif')
        {
-          $data = $this->formulir->form_dataortu($this->session->userdata('id_siswa'), 'data_ayah');
-          $data['ayah'] = $this->formulir->data_ortu($this->session->userdata('id_siswa'), 'data_ayah');
+          $data = $this->formulir->form_dataortu($this->session->userdata('id_akun'), 'data_ayah');
+          $data['ayah'] = $this->formulir->data_ortu($this->session->userdata('id_akun'), 'data_ayah');
           $data['tgl']  = $this->pendaftaran->tanggal();
           $data['bln']  = $this->pendaftaran->bulan();
           $data['thn']  = $this->member->tahun();
@@ -173,8 +176,8 @@ class Member extends CI_Controller
    {
        if($this->session->userdata('member') == 'aktif')
        {
-          $data = $this->formulir->form_dataortu($this->session->userdata('id_siswa'), 'data_ibu');
-          $data['ayah'] = $this->formulir->data_ortu($this->session->userdata('id_siswa'), 'data_ibu');
+          $data = $this->formulir->form_dataortu($this->session->userdata('id_akun'), 'data_ibu');
+          $data['ayah'] = $this->formulir->data_ortu($this->session->userdata('id_akun'), 'data_ibu');
           $data['tgl']  = $this->pendaftaran->tanggal();
           $data['bln']  = $this->pendaftaran->bulan();
           $data['thn']  = $this->member->tahun();
@@ -210,7 +213,7 @@ class Member extends CI_Controller
    {
        if($this->session->userdata('member') == 'aktif')
        {
-          $data = $this->formulir->form_dataalamat($this->session->userdata('id_siswa'));
+          $data = $this->formulir->form_dataalamat($this->session->userdata('id_akun'));
           $data['transport'] = $this->member->opsi_transport();
           $data['trans'] = $this->member->view_dataalamat();
           $data['sidebar']= 'sidebar';
@@ -235,6 +238,62 @@ class Member extends CI_Controller
         {
             $this->member->update_dataalamat();
             redirect(site_url().'member/data_alamat');   
+        }
+   }
+
+   function data_anak()
+   {
+       if($this->session->userdata('member') == 'aktif')
+       {
+          
+
+          $data = $this->formulir->form_dataanak();
+          $data['dataAnak'] = $this->member->get_anak();
+          $data['tgl']  = $this->pendaftaran->tanggal();
+          $data['bln']  = $this->pendaftaran->bulan();
+          $data['thn']  = $this->member->tahun();
+          $data['sidebar'] = 'sidebar';
+          $data['main']    = 'member/data_anak';
+          $this->load->view('template', $data);
+        }
+        else
+        {
+          $this->login();
+        }
+   }
+
+   function ajukan()
+   {
+       if($this->session->userdata('member') == 'aktif')
+       {
+          
+
+          $data = $this->formulir->form_dataanak();
+          $data['dataAnak'] = $this->member->get_anak();
+          $data['tgl']  = $this->pendaftaran->tanggal();
+          $data['bln']  = $this->pendaftaran->bulan();
+          $data['thn']  = $this->member->tahun();
+          $data['sidebar'] = 'sidebar';
+          $data['main']    = 'member/data_anak';
+          $this->load->view('template', $data);
+        }
+        else
+        {
+          $this->login();
+        }
+   }
+
+   function update_dataanak()
+   {
+        $this->form_validation->set_rules($this->formulir->validasi_dataanak());
+        if($this->form_validation->run() == false)
+        {
+            $this->data_anak();
+        }
+        else
+        {
+            $this->member->update_dataanak();
+            redirect(site_url().'member/data_anak');
         }
    }
    

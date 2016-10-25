@@ -32,6 +32,7 @@ class Login extends CI_Controller
     {
         $this->load->helper('captcha');
         $vals = array(
+                'word'       => random_string('numeric', 4),
                 'img_path'   => './captcha/',
                 'img_url'    => base_url().'captcha/',
                 'font_path'  => './system/fonts/impact.ttf',
@@ -95,7 +96,7 @@ class Login extends CI_Controller
    {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-        //$this->form_validation->set_rules('mycaptcha', 'Kode Validasi', 'trim|required|callback_check_captcha_login');
+        $this->form_validation->set_rules('mycaptcha', 'Kode Validasi', 'trim|required|callback_check_captcha_login');
         if($this->form_validation->run() == FALSE)
         {
             $this->login();
@@ -105,19 +106,21 @@ class Login extends CI_Controller
             // cek di database sukses
                 if($this->login->cek_user())
                 { 
-                    $identitas = $this->db->get_where('data_siswa', array('username'=>$this->input->post('username')))->row();
-            
+
+                  //$identitas = $this->db->get_where('data_siswa', array('username'=>$this->input->post('username')))->row();
+                  /*
                   $data_sess = array('id_siswa'   => $identitas->id_siswa,
                                      'namalengkap'=> $identitas->namalengkap,
                                      'kelamin'    => $identitas->kelamin);
                     $this->session->set_userdata($data_sess);
+                    */
                     redirect('member');
                 }
                 // cek database gagal
                 else
                 {
-                    $this->data['pesan'] = 'Username atau Password salah Om.';
-                    $this->load->view('backend/admin/login/index.php', $this->data);
+                    $this->data['pesan'] = 'Username atau Password Tidak Tepat.';
+                    $this->login();
                 }
            //$d = $this->db->get_where('data_siswa', array('username'=>$this->input->post('username')))->row();
             /*

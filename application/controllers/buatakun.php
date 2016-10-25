@@ -31,6 +31,7 @@ class Buatakun extends CI_Controller
         
         $this->load->helper('captcha');
         $vals = array(
+                'word'       => random_string('numeric', 4),
                 'img_path'	 => './captcha/',
                 'img_url'	 => base_url().'captcha/',
                 'font_path'  => './system/fonts/impact.ttf',
@@ -69,7 +70,7 @@ class Buatakun extends CI_Controller
             $this->pendaftaran();
         }
         else
-        {   //echo "OK";exit();
+        {
             $this->akun->simpan();
             redirect('pendaftaran/sukses');
         }

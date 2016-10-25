@@ -117,6 +117,7 @@ if(!empty($pesan)){
       <label for="namalengkap" class="col-md-3 control-label">Penghasilan</label>
       <div class="col-md-5">
         <?php 
+            //print_r($gj);
             echo form_dropdown('gaji', $gaji, $gj->gaji, 'class=form-control');
             echo form_error('gaji','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
         ?>
