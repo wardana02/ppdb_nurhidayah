@@ -108,10 +108,18 @@ class Management_mdl extends CI_Model
         return $this->db->get('data_account')->num_rows();
     }
     
-    function view_account($limit, $offset)
+    function view_account2($limit, $offset)
     {
         $this->db->limit($limit, $offset);
         return $this->db->get('data_account')->result();
+    }
+
+        function view_account($limit, $offset)
+    {
+        return $this->db->query("select a.kelamin,s.kd_unik,s.tgl_daftar,id_siswa,a.namalengkap,a.kelamin,i.namalengkap namaibu,c.nohp from data_siswa s 
+        join data_anak a on s.id_anak=a.id_saudara
+        JOIN data_ibu i on a.id_akun=i.id_akun 
+        JOIN data_account c on a.id_akun=c.id_account LIMIT ".$limit." OFFSET ".$offset."")->result();
     }
     
     function view_data_account($id)
@@ -198,8 +206,10 @@ class Management_mdl extends CI_Model
     
     function data_pendaftar($limit, $offset)
     {
-        $this->db->limit($limit, $offset);
-        return $this->db->get('data_siswa')->result();
+        return $this->db->query("select id_siswa,a.namalengkap,a.kelamin,i.namalengkap namaibu,c.nohp from data_siswa s 
+        join data_anak a on s.id_anak=a.id_saudara
+        JOIN data_ibu i on a.id_akun=i.id_akun 
+        JOIN data_account c on a.id_akun=c.id_account LIMIT ".$limit." OFFSET ".$offset."")->result();
     }
     
     function simpan_slide()

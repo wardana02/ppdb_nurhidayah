@@ -30,26 +30,45 @@ $total = $data_account + $data_siswa;
                 </div>
                 -->
                 <div class="row">
-                    <div class="col-md-5">
-                        <h5>Identitas Akun</h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h5>: <?php echo $this->session->userdata('nama_lengkap') ?></h5>
+                    <div class="col-md-12">
+                        Identitas Akun
+                        <h3><?php echo $this->session->userdata('nama_lengkap') ?></h3>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5">
-                        <h5>E-Mail</h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h5>: <?php echo $this->session->userdata('email') ?></h5>
+                    <div class="col-md-12">
+                        E-Mail
+                        <h4><?php echo $this->session->userdata('email') ?></h4>
                     </div>
                 </div>
                 <?php } ?>
             </div>
         </div>
 
-        <?php if($this->session->userdata('member') == 'aktif'){ ?>
+        <?php 
+        $jml = $this->member->get_jml_aju();
+        if($this->session->userdata('member') == 'aktif'){ ?>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Finalisasi Ajuan Siswa</h3>
+            </div>
+            <div class="panel-body"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Apabila Data Ajuan sudah benar, silahkan klik tombol Finalisasi untuk melakukan checkout pengajuan
+                        dan menampilkan cetak pembayaran.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a href=<?=base_url("member/finalisasi")?> class="btn btn-primary"> <i class="fa fa-plus-circle"></i> Finalisasi Ajuan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+
+        <?php 
+        $jml = $this->member->get_jml_aju();
+        if($this->session->userdata('member') == 'aktif'){ ?>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">Pengajuan Pendaftaran Siswa</h3>
@@ -57,10 +76,10 @@ $total = $data_account + $data_siswa;
             <div class="panel-body"> 
                 <div class="row">
                     <div class="col-md-12">
-                        <h5>Jumlah Ajuan Pendaftaran Siswa Tahun <?=date("Y")?></h5>
+                        <h5>Jumlah Ajuan Siswa Anda Tahun <?=date("Y")?></h5>
                     </div>
                     <div class="col-md-12">
-                        <h3> 10 Siswa</h3>
+                        <h3> <?=$jml->jml?> Siswa</h3>
                     </div>
                     <div class="col-md-6">
                         <a href=<?=base_url("member/ajukan")?> class="btn btn-success"> <i class="fa fa-plus-circle"></i> Lakukan Ajuan Pendaftaran</a>
@@ -72,7 +91,7 @@ $total = $data_account + $data_siswa;
         <!-- MENU AKTIF ACCOUNT -->
         <?php if($this->session->userdata('member') == true) { ?>
         <div class="panel panel-primary">
-            <div class="panel-heading">Formulir yang harus dilengkapi</div>
+            <div class="panel-heading">Data Pokok yang harus dilengkapi</div>
                 <div class="list-group">
                     <!--<a href="<?php echo site_url().'member/data_siswa'; ?>" class="list-group-item">&raquo; Data Siswa</a>-->
                     <a href="<?php echo site_url().'member/data_ayah'; ?>" class="list-group-item">&raquo; Data Ayah</a>

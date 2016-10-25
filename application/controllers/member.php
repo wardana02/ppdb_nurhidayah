@@ -252,9 +252,68 @@ class Member extends CI_Controller
           $data['tgl']  = $this->pendaftaran->tanggal();
           $data['bln']  = $this->pendaftaran->bulan();
           $data['thn']  = $this->member->tahun();
+          $data['val']  = "Tambah";
           $data['sidebar'] = 'sidebar';
           $data['main']    = 'member/data_anak';
           $this->load->view('template', $data);
+        }
+        else
+        {
+          $this->login();
+        }
+   }
+
+  function ubah_anak($id)
+   {
+       if($this->session->userdata('member') == 'aktif')
+       {
+          
+
+          $data = $this->formulir->form_dataanak();
+          $data['dataAnak'] = $this->member->get_anak();
+          $data['detailAnak'] = $this->member->get_id_anak($id);
+          $data['tgl']  = $this->pendaftaran->tanggal();
+          $data['bln']  = $this->pendaftaran->bulan();
+          $data['thn']  = $this->member->tahun();
+          $data['val']  = "Simpan";
+          $data['sidebar'] = 'sidebar';
+          $data['main']    = 'member/data_anak';
+          $this->load->view('template', $data);
+        }
+        else
+        {
+          $this->login();
+        }
+   }
+
+   function finalisasi()
+   {
+       if($this->session->userdata('member') == 'aktif')
+       {
+          
+
+          $data = $this->formulir->form_dataanak();
+          $data['dataAnak'] = $this->member->get_anak_aju("");
+          $data['sidebar'] = 'sidebar';
+          $data['main']    = 'member/ajuan_finalisasi';
+          $this->load->view('template', $data);
+        }
+        else
+        {
+          $this->login();
+        }
+   }
+
+   function finals($id)
+   {
+       if($this->session->userdata('member') == 'aktif')
+       {
+          
+          $data = array('is_finalisasi'=> 1);
+          $this->db->where('id_siswa', $id);
+          $this->db->update('data_siswa',$data);
+          $this->session->set_flashdata('aju_anak', 'Finalisasi Ajuan Siswa Berhasil');
+          redirect('member/finalisasi');
         }
         else
         {
@@ -269,12 +328,12 @@ class Member extends CI_Controller
           
 
           $data = $this->formulir->form_dataanak();
-          $data['dataAnak'] = $this->member->get_anak();
+          $data['dataAnak'] = $this->member->get_anak_aju("LEFT");
           $data['tgl']  = $this->pendaftaran->tanggal();
           $data['bln']  = $this->pendaftaran->bulan();
           $data['thn']  = $this->member->tahun();
           $data['sidebar'] = 'sidebar';
-          $data['main']    = 'member/data_anak';
+          $data['main']    = 'member/ajuan_pendaftaran';
           $this->load->view('template', $data);
         }
         else
@@ -283,7 +342,38 @@ class Member extends CI_Controller
         }
    }
 
-   function update_dataanak()
+   function ajukan_anak($id)
+   {
+       if($this->session->userdata('member') == 'aktif')
+       {
+          $c = $this->validasi_anak($id);
+          if($c){
+            $periode = $this->formulir->get_periode_aktif();
+            $kode = $this->formulir->get_kode_aktif();
+            $data = array(
+                'id_anak' => $id,
+                'id_periode_pendaftaran'  => $periode->id_data_periode,
+                'kd_unik' =>  $kode->kd_unik,
+              );
+            $this->db->insert('data_siswa', $data);
+            $kd = array('IS_DIGUNAKAN'=>1);
+            $this->db->where('kd_unik', $kode->kd_unik);
+            $this->db->update('kd_unik',$kd);
+
+            $this->session->set_flashdata('aju_anak', 'Penambahan Ajuan Siswa Berhasil');
+            redirect('member/ajukan');
+          }else{
+            redirect('member/ajukan');
+          }
+          
+        }
+        else
+        {
+          $this->login();
+        }
+   }
+
+   function update_dataanak($id)
    {
         $this->form_validation->set_rules($this->formulir->validasi_dataanak());
         if($this->form_validation->run() == false)
@@ -292,7 +382,16 @@ class Member extends CI_Controller
         }
         else
         {
-            $this->member->update_dataanak();
+          $c = $this->input->post('submit');
+          $id = $this->input->post('id');
+
+          if($c=='Simpan'){
+            //echo $c." / ".$id;exit();
+            $this->member->update_dataanak($id);
+          }else{
+            $this->member->tambah_dataanak();
+          }
+            
             redirect(site_url().'member/data_anak');
         }
    }
@@ -376,6 +475,18 @@ class Member extends CI_Controller
         $this->login();
       }
    }
+
+   public function validasi_anak($id)
+   {
+     $anak = $this->db->get_where('data_anak', array('id_saudara'=>$id,'id_akun'=>$this->session->userdata('id_akun')))->row();
+          $umur = umur($anak->tgl_lahir);
+          if(($anak)&&(($umur>=6)&&($umur<8))){
+            return true;
+          }else{
+            return false;
+          }
+   }
+
    
    function logout()
    {

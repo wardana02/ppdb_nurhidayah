@@ -1,10 +1,3 @@
-<?php
-function tanggal($tgl)
-{
-    $x = explode('-', $tgl);
-    return $x[2].'-'.$x[1].'-'.$x[0];
-}
-?>
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-head-line">DATA ACCOUNT</h1>
@@ -28,13 +21,12 @@ function tanggal($tgl)
                 <thead>
                     <tr>
                         <th>NO</th>
-                        <th>NIK</th>
                         <th>Nama Lengkap</th>
-                        <th>EMAIL</th>
+                        <th>Kelamin</th>
+                        <th>Nama Ibu</th>
                         <th>No HP</th>
-                        <th>Tanggal Daftar</th>
-                        <th>Terakhir Login</th>
-                        <th>Status</th>
+                        <th>Tgl Daftar</th>
+                        <th>Unik</th>
                         <th colspan="2">Aksi</th>
                     </tr>
                 </thead>
@@ -45,15 +37,14 @@ function tanggal($tgl)
                     {
                         echo "<tr>
                                 <td>".$no."</td>
-                                <td>".$r->nik."</td>
                                 <td>".$r->namalengkap."</td>
-                                <td>".$r->email."</td>
+                                <td>".$r->kelamin."</td>
+                                <td>".$r->namaibu."</td>
                                 <td>".$r->nohp."</td>
-                                <td>".dateindo($r->tgldaftar)."</td>
-                                <td>".$r->last_log."</td>
-                                <td>".$r->aktif."</td>
-                                <td>".anchor('management/aktifkan/'.$r->id_account,img(base_url().'assets/images/check.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan mengaktifkan account ini?\')'))."</td>
-                                <td>".anchor('management/delete_account/'.$r->id_account,img(base_url().'assets/images/delete.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan menghapus data ini?\')'))."</td>
+                                <td>".dateindo($r->tgl_daftar)." | </td>
+                                <td>".$r->kd_unik."</td>
+                                <td>".anchor('management/aktifkan/'.$r->id_siswa,img(base_url().'assets/images/check.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan mengaktifkan account ini?\')'))."</td>
+                                <td>".anchor('management/delete_account/'.$r->id_siswa,img(base_url().'assets/images/delete.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan menghapus data ini?\')'))."</td>
                             </tr>";
                         $no++;
                     }

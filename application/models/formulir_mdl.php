@@ -10,7 +10,19 @@ class Formulir_mdl extends CI_Model
     function __construct()
     {
         parent::__construct();
-    }  
+    }
+
+    function get_periode_aktif()
+    {
+        $DATA = $this->db->query("SELECT * FROM data_periode p where p.tanggal_awal<=NOW() AND NOW()<=p.tanggal_akhir")->row();
+        return $DATA;
+    }
+
+    function get_kode_aktif()
+    {
+        $DATA = $this->db->query("SELECT * FROM kd_unik p where p.IS_DIGUNAKAN=0 ORDER BY RAND() LIMIT 1")->row();
+        return $DATA;
+    }    
     
     function data_siswa($id_siswa)
     {

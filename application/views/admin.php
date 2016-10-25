@@ -46,12 +46,13 @@
                             <div class="inner-text">
                                 Administrator
                             <br />
-                                <small>Last Login : 2 Weeks Ago </small>
+                                <small> </small>
                             </div>
                         </div>
                     </li>
 
                     <li><a class="active-menu" href="<?php echo site_url().'management' ?>"><i class="fa fa-dashboard "></i>Dashboard</a>                    </li>
+                    <!--
                     <li>
                         <a href="#"><i class="fa fa-desktop "></i>Management SMS <span class="fa arrow"></span></a>
                          <ul class="nav nav-second-level">
@@ -61,8 +62,12 @@
                             <li><a href="<?php echo site_url().'management/send_sms' ?>"><i class="fa fa-eyedropper "></i>Send SMS</a></li>
                         </ul>
                     </li>
+                    -->
                     <li>
                         <a href="<?php echo site_url().'management/activasi' ?>"><i class="fa fa-yelp "></i>Aktivasi Account</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo site_url().'management/verifikasi' ?>"><i class="fa fa-desktop "></i>Verifikasi Pengajuan</a>
                     </li>
                     <li><a href="<?php echo site_url().'management/data_pendaftar' ?>"><i class="fa fa-flash "></i>Data Pendaftar </a></li>
                     <li><a href="<?php echo site_url().'management/statis' ?>"><i class="fa fa-bicycle "></i>Halaman Statis</a></li>

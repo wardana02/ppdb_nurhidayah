@@ -1,4 +1,6 @@
-<?php if( !defined('BASEPATH')) exit('NO direct allowed');
+<?php error_reporting(0); 
+$t = explode('-', $detailAnak->tgl_lahir);
+if( !defined('BASEPATH')) exit('NO direct allowed');
 
 /**
  * @author Marsono Saputro
@@ -11,7 +13,7 @@ if(!empty($pesan)){
   <button type="button" class="close" data-dismiss="alert"><span class="btn glyphicon glyphicon-remove"></span></button>
   <b><?php echo $pesan; ?></b>
   <div class="pull-right">
-    <a href="<?php echo site_url().'member/data_biaya' ?>" class="btn btn-xs glyphicon glyphicon-forward"> LANJUT </a>
+    <a href="<?php echo site_url().'member' ?>" class="btn btn-xs glyphicon glyphicon-stop"> Selesai </a>
   </div>
 </div>
 <?php } ?>
@@ -60,8 +62,15 @@ if(!empty($pesan)){
     <div class="form-group">
       <label for="namalengkap" class="col-md-3 control-label">Nama Lengkap</label>
       <div class="col-md-9">
-        <?php 
-            echo form_input($nama); 
+        <?php
+            echo form_hidden('id', $detailAnak->id_saudara);
+
+          $nama = array(
+              'name'        => 'namalengkap',
+              'value'       => $detailAnak->namalengkap,
+              'class'       => 'form-control',
+            );
+            echo form_input($nama);
             echo form_error('namalengkap','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
         ?>
       </div>
@@ -70,8 +79,8 @@ if(!empty($pesan)){
       <label for="kelamin" class="col-md-3 control-label">Kelamin </label>
       <div class="col-md-9">
         <?php 
-            //echo form_input($kelamin); 
-            echo form_dropdown('kelamin', array(''=>'', 'L'=>'Laki-laki', 'P'=>'Perempuan'), $this->input->post('kelamin'), 'class=form-control');
+            $BATCH = $detailAnak->kelamin;
+            echo form_dropdown('kelamin', array(''=>'', 'L'=>'Laki-laki', 'P'=>'Perempuan'), $BATCH,'class=form-control');
             echo form_error('kelamin','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
         ?>
       </div>
@@ -80,6 +89,11 @@ if(!empty($pesan)){
       <label for="ttl" class="col-md-3 control-label">Tempat Lahir</label>
       <div class="col-md-9">
         <?php 
+            $ttl = array(
+              'name'        => 'ttl',
+              'value'       => $detailAnak->tmp_lahir,
+              'class'       => 'form-control',
+            );
             echo form_input($ttl); 
             echo form_error('ttl','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
         ?>
@@ -110,6 +124,11 @@ if(!empty($pesan)){
       <label for="sekolah" class="col-md-3 control-label">Sekolah</label>
       <div class="col-md-9">
         <?php 
+            $sekolah = array(
+              'name'        => 'sekolah',
+              'value'       => $detailAnak->sekolah,
+              'class'       => 'form-control',
+            );
             echo form_input($sekolah); 
             echo form_error('sekolah','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
         ?>
@@ -119,6 +138,11 @@ if(!empty($pesan)){
       <label for="keterangan" class="col-md-3 control-label">Keterangan</label>
       <div class="col-md-9">
         <?php 
+        $keterangan = array(
+              'name'        => 'keterangan',
+              'value'       => $detailAnak->keterangan,
+              'class'       => 'form-control',
+            );
             echo form_input($keterangan); 
             echo form_error('keterangan','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
         ?>
@@ -126,7 +150,7 @@ if(!empty($pesan)){
     </div>
     <div class="form-group">
       <div class="col-md-9 col-md-offset-3">
-        <input type="submit" class="btn btn-primary" name="submit" value="Simpan" />
+        <input type="submit" class="btn btn-primary" name="submit" value=<?=$val?> />
       </div>
     </div>
   </fieldset>

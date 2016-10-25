@@ -25,6 +25,7 @@
                 </thead>
                 <tbody>
                     <?php 
+                    
                     $no=1 + $this->uri->segment(3);
                     foreach ($pendaftar as $r)
                     {
@@ -42,6 +43,6 @@
                 </tbody>
             </table>
         </div>
-        <div class="pull-right" style="margin-top: -25px;"><?php echo $page; ?></div>
+        <div class="pull-right" style="margin-top: -25px;"><?php //echo $page; ?></div>
     </div>
 </div>

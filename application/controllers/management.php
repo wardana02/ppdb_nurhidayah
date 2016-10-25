@@ -24,7 +24,7 @@ class Management extends CI_Controller
    {
         if($this->session->userdata('login') == true && $this->session->userdata('admin') == 'true')
        {
-            $this->activasi();
+            $this->verifikasi();
        }
        else
        {
@@ -208,9 +208,53 @@ class Management extends CI_Controller
         $data['main']   = 'admin/sms/send_sms';
         $this->load->view('admin', $data);
    }
+
+      function verifikasi()
+   {
+    
+        $page  = $this->uri->segment(3);
+        $limit = 10;
+    if(!$page):
+      $offset = 0;
+    else:
+      $offset = $page;
+    endif;
+        
+        $config['base_url']   = base_url().'management/activasi';
+        $config['total_rows'] = $this->management->total_account();
+        $config['per_page']   = $limit;
+        $config['uri_segment']= 3;
+                
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['num_links'] = 5;
+        
+        $config['prev_link'] = '&lt; Prev';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'Next &gt;';
+        $config['next_tag_open'] = '<li class=next>';
+        $config['next_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        
+        
+        $this->pagination->initialize($config);
+        $data['page']  = $this->pagination->create_links();
+        $data['account'] = $this->management->view_account($limit, $offset);
+        $data['main']  = 'admin/account/verifikasi';
+        $this->load->view('admin', $data);
+   }
    
    function activasi()
    {
+    
         $page  = $this->uri->segment(3);
         $limit = 10;
 		if(!$page):
@@ -243,9 +287,10 @@ class Management extends CI_Controller
         $config['first_tag_open'] = '<li>';
         $config['first_tag_close'] = '</li>';
         
+        
         $this->pagination->initialize($config);
         $data['page']  = $this->pagination->create_links();
-        $data['account'] = $this->management->view_account($limit, $offset);
+        $data['account'] = $this->management->view_account2($limit, $offset);
         $data['main']  = 'admin/account/activasi';
         $this->load->view('admin', $data);
    }
@@ -267,6 +312,7 @@ class Management extends CI_Controller
    
    function data_pendaftar()
    {
+    
         $page  = $this->uri->segment(3);
         $limit = 10;
 		if(!$page):
@@ -301,6 +347,7 @@ class Management extends CI_Controller
         
         $this->pagination->initialize($config);
         $data['page']  = $this->pagination->create_links();
+        
         $data['pendaftar'] = $this->management->data_pendaftar($limit, $offset);
         $data['main']  = 'admin/account/data_pendaftar';
         $this->load->view('admin', $data);

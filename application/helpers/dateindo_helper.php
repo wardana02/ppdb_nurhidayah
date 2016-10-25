@@ -16,4 +16,19 @@
 			    return($result);
 			}
 
+			function umur($tgl_lahir,$delimiter='-') {
+    
+			    list($tahun,$bulan,$hari) = explode($delimiter, $tgl_lahir);
+			    
+			    $selisih_hari = date('d') - $hari;
+			    $selisih_bulan = date('m') - $bulan;
+			    $selisih_tahun = date('Y') - $tahun;
+			    
+			    if ($selisih_hari < 0 || $selisih_bulan < 0) {
+			        $selisih_tahun--;
+			    }
+			    
+			    return $selisih_tahun;
+			}
+
 ?>

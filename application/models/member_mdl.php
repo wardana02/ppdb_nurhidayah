@@ -62,6 +62,20 @@ class Member_mdl extends CI_Model
         return $this->db->get_where('data_anak', array('id_akun'=>$this->session->userdata('id_akun')))->result();
     }
 
+    function get_jml_aju()
+    {
+        $id = $this->session->userdata('id_akun');
+        $DATA = $this->db->query("SELECT count(a.namalengkap) as jml FROM data_anak a join data_siswa s on a.id_saudara=s.id_anak WHERE id_akun='$id'")->row();
+        return $DATA;
+    }
+
+    function get_anak_aju($j)
+    {
+        $id = $this->session->userdata('id_akun');
+        $DATA = $this->db->query("SELECT id_siswa,is_finalisasi,a.id_saudara,a.namalengkap,a.kelamin,a.tgl_lahir,s.kd_unik FROM data_anak a ".$j." join data_siswa s on a.id_saudara=s.id_anak WHERE id_akun='$id'")->result();
+        return $DATA;
+    }
+
     function get_id_anak($id)
     {
         return $this->db->get_where('data_anak', array('id_saudara'=>$id))->row();
@@ -70,7 +84,7 @@ class Member_mdl extends CI_Model
     function tahun()
     {
         $thn[''] = 'thn';
-        for($i='1970'; $i<='2000'; $i++)
+        for($i='1970'; $i<=date("Y"); $i++)
         {
             $thn[$i] = $i;
         }
@@ -235,22 +249,38 @@ class Member_mdl extends CI_Model
         $data = array('id_akun'=>$this->session->userdata('id_akun'),
                       'namalengkap'=>$this->input->post('namalengkap'),
                       'kelamin'=>$this->input->post('kelamin'),
-                      'ttl'=>$this->input->post('ttl'),
+                      'tmp_lahir'=>$this->input->post('ttl'),
+                      'tgl_lahir' =>  $this->input->post('tahun').'-'.$this->input->post('bulan').'-'.$this->input->post('tanggal'),
                       'sekolah'=>$this->input->post('sekolah'),
                       'keterangan'=>$this->input->post('keterangan'));
         $this->db->insert('data_saudara', $data);
         $this->session->set_flashdata('update_saudara', 'Perubahan data berhasil disimpan');
     }
 
-    function update_dataanak()
+    function tambah_dataanak()
     {
         $data = array('id_akun'=>$this->session->userdata('id_akun'),
                       'namalengkap'=>$this->input->post('namalengkap'),
                       'kelamin'=>$this->input->post('kelamin'),
                       'tmp_lahir'=>$this->input->post('ttl'),
+                      'tgl_lahir' =>  $this->input->post('tahun').'-'.$this->input->post('bulan').'-'.$this->input->post('tanggal'),
                       'sekolah'=>$this->input->post('sekolah'),
                       'keterangan'=>$this->input->post('keterangan'));
         $this->db->insert('data_anak', $data);
+        $this->session->set_flashdata('update_anak', 'Penambahan data berhasil disimpan');
+    }
+
+    function update_dataanak($id)
+    {
+        $data = array(
+                      'namalengkap'=>$this->input->post('namalengkap'),
+                      'kelamin'=>$this->input->post('kelamin'),
+                      'tmp_lahir'=>$this->input->post('ttl'),
+                      'tgl_lahir' =>  $this->input->post('tahun').'-'.$this->input->post('bulan').'-'.$this->input->post('tanggal'),
+                      'sekolah'=>$this->input->post('sekolah'),
+                      'keterangan'=>$this->input->post('keterangan'));
+        $this->db->where('id_saudara', $id);
+        $this->db->update('data_anak', $data);
         $this->session->set_flashdata('update_anak', 'Perubahan data berhasil disimpan');
     }
     
