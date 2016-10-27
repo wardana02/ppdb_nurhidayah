@@ -156,7 +156,7 @@ class Management_mdl extends CI_Model
     
     function delete_account($id)
     {
-        return $this->db->delete('data_account', array('id_account'=>$id));
+        return $this->db->delete('data_siswa', array('id_siswa'=>$id));
     }
     
     function send_email()

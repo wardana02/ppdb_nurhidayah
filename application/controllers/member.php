@@ -62,6 +62,7 @@ class Member extends CI_Controller
 
    public function requestPendaftaran($value='')
    {
+          $data['dataAnak'] = $this->member->get_anak_bio();
           $data['main']    = 'member/request_pendaftaran';
           $data['sidebar'] = 'sidebar';
           $data['ayah'] = $this->member->view_dataayah();
@@ -309,7 +310,7 @@ class Member extends CI_Controller
        if($this->session->userdata('member') == 'aktif')
        {
           
-          $data = array('is_finalisasi'=> 1);
+          $data = array('is_finalisasi'=> 1,'tgl_daftar'=> date("Y-m-d H:i:s"));
           $this->db->where('id_siswa', $id);
           $this->db->update('data_siswa',$data);
           $this->session->set_flashdata('aju_anak', 'Finalisasi Ajuan Siswa Berhasil');

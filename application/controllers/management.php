@@ -11,6 +11,7 @@ class Management extends CI_Controller
    {
        parent::__construct();
        $this->load->model('Management_mdl', 'management', true);
+       $this->load->model('Member_mdl', 'member', true);
        $this->load->library('pagination');
        //require_once(APPPATH.'libraries/apifunction.php');
    }
@@ -19,12 +20,23 @@ class Management extends CI_Controller
    {
        $this->cek_admin();
    }
+
+   function dashboard(){
+
+        $data['jml_pendaftar'] = $this->member->get_jml_pendaftar();
+        $data['chart']  = "active";
+        $data['chart_caption']  = "Grafik Pendaftar PPDB Online SDIT Nur Hidayah";
+        $data['main']   = 'admin/dashboard';
+        $data['a'] = "active-menu";
+        $this->load->view('admin', $data);
+
+   }
    
    function cek_admin()
    {
         if($this->session->userdata('login') == true && $this->session->userdata('admin') == 'true')
        {
-            $this->verifikasi();
+            $this->dashboard();
        }
        else
        {
@@ -310,16 +322,16 @@ class Management extends CI_Controller
    function aktifkan()
    {
         $this->management->aktifasi($this->uri->segment(3));
-        $this->management->delete_account($this->uri->segment(3));
-        $this->sms_password();
-        $this->management->send_email();
-        redirect('management/activasi', 'refresh');
+        //$this->management->delete_account($this->uri->segment(3));
+        //$this->sms_password();
+       // $this->management->send_email();
+        redirect('management/verifikasi', 'refresh');
    }
    
    function delete_account($id)
    {
         $this->management->delete_account($this->uri->segment(3));
-        redirect('management/activasi', 'refresh');
+        redirect('management/verifikasi', 'refresh');
    }
    
    function data_pendaftar()

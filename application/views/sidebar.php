@@ -4,9 +4,8 @@ function ym($id, $style)
     echo "<a href='ymsgr:sendim?$id'><img border=0 src='http://opi.yahoo.com/online?u=$id&amp;m=g&amp;t=$style' /> </a>";
 }
 
-$data_account = $this->db->count_all('data_account');
 $data_siswa   = $this->db->count_all('data_siswa');
-$total = $data_account + $data_siswa;
+$total        = $data_siswa;
 
 ?>
 <div class="row">

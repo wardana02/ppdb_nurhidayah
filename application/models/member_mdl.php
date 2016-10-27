@@ -12,7 +12,11 @@ class Member_mdl extends CI_Model
         parent::__construct();
     }
 
-       
+   function get_jml_pendaftar(){
+    $query = $this->db->query("SELECT count(1) jml,p.tahun_periode periode FROM data_siswa s JOIN data_anak a on s.id_anak=a.id_saudara JOIN data_periode p ON p.id_data_periode=s.ID_PERIODE_PENDAFTARAN GROUP BY ID_PERIODE_PENDAFTARAN");
+        return $query->result();
+   }
+
    function get_data_akun()
     {
         $this->db->where('id_account', $this->session->userdata('id_akun'));
@@ -80,6 +84,13 @@ class Member_mdl extends CI_Model
     {
         $id = $this->session->userdata('id_akun');
         $DATA = $this->db->query("SELECT tgl_verifikasi,id_siswa,is_finalisasi,a.id_saudara,a.namalengkap,a.kelamin,a.tgl_lahir,s.kd_unik FROM data_anak a ".$j." join data_siswa s on a.id_saudara=s.id_anak WHERE id_akun='$id' ".$c ." ")->result();
+        return $DATA;
+    }
+
+    function get_anak_bio()
+    {
+        $id = $this->session->userdata('id_akun');
+        $DATA = $this->db->query("SELECT tgl_verifikasi,s.id_siswa,is_finalisasi,a.id_saudara,a.namalengkap,a.kelamin,a.tgl_lahir,s.kd_unik,b.spp FROM data_anak a left join data_siswa s on a.id_saudara=s.id_anak JOIN data_biaya b ON b.id_siswa=s.id_siswa WHERE id_akun='".$id."' AND b.spp IS NOT NULL")->result();
         return $DATA;
     }
 

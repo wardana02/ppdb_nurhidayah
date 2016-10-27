@@ -90,12 +90,57 @@
     <!-- /. WRAPPER  -->
 
     <div id="footer-sec">
-        &copy; 2014 ICT Nur Hidayah | Programmer By : <a href="http://www.itsupport.nurhidayah.sch.id/" target="_blank">Marsono Saputro</a>
+        &copy; <?=date("Y")?> ICT Nur Hidayah | Programmer By : <a href="http://www.itsupport.nurhidayah.sch.id/" target="_blank">Nur Hidayah</a>
     </div>
     <!-- /. FOOTER  -->
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
     <script src="<?php echo base_url().'assets/admin/' ?>js/jquery-1.11.1.min.js"></script>
+
+    <?php if($chart=='active'){?>
+    <!-- Highchart -->
+    <script src=<?=base_url("assets/highchart/js/highcharts.js");?>></script>
+    <script src=<?=base_url("assets/highchart/js/modules/data.js");?>></script>
+    <script src=<?=base_url("assets/highchart/js/modules/exporting.js");?>></script>
+
+       <script type="text/javascript">
+        $(function () {
+
+          Highcharts.setOptions({
+              colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', 
+                    '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+          });
+            $('#adah_chart').highcharts({
+                data: {
+                    table: 'datatable'
+                },
+                credits: {
+                    text: 'PPDB Online SDIT Nur Hidayah',
+                    href: 'http://spj-bpsbjateng.hol.es'
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '<?=$chart_caption?>'
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: 'Angka Menunjukan Jumlah Siswa'
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            this.point.y + ' Orang Siswa';
+                    }
+                }
+            });
+        });
+      </script>
+      <?php }?>
+
     <!-- BOOTSTRAP SCRIPTS -->
     <script src="<?php echo base_url().'assets/admin/' ?>js/bootstrap.js"></script>
     <!-- METISMENU SCRIPTS -->
