@@ -119,7 +119,7 @@ class Management_mdl extends CI_Model
         return $this->db->query("select a.kelamin,s.kd_unik,s.tgl_daftar,id_siswa,a.namalengkap,a.kelamin,i.namalengkap namaibu,c.nohp from data_siswa s 
         join data_anak a on s.id_anak=a.id_saudara
         JOIN data_ibu i on a.id_akun=i.id_akun 
-        JOIN data_account c on a.id_akun=c.id_account LIMIT ".$limit." OFFSET ".$offset."")->result();
+        JOIN data_account c on a.id_akun=c.id_account where is_finalisasi='1' LIMIT ".$limit." OFFSET ".$offset."")->result();
     }
     
     function view_data_account($id)
@@ -141,29 +141,17 @@ class Management_mdl extends CI_Model
     
     function aktifasi($id)
     {
-        $r = $this->view_data_account($id);
-        $data = array('id_siswa'=>$this->create_id($r->jeniskelamin),
-                      'namalengkap'=>$r->namalengkap,
-                      'kelamin'=>$r->jeniskelamin,
-                      'tgllahir'=>$r->tgllahir,
-                      'namaibu'=>$r->namaIbu,
-                      'nohp'=>$r->nohp,
-                      'email'=>$r->email,
-                      'username'=>$r->username,
-                      'password'=>$r->password,
-                      'tglaktif'=>date('Y-m-d'),
-                      'jamaktif'=>date('H:i:s')
+        $data = array('is_finalisasi'=>'2',
+                      'tgl_verifikasi'=>date('Y-m-d H:i:s')
                       );
-        $id = array('id_siswa'=>$this->create_id($r->jeniskelamin));
-        //$this->db->trans_start();
-        $this->db->insert('data_siswa', $data);
-        $this->db->insert('data_ayah', $id);
-        $this->db->insert('data_ibu', $id);
-        $this->db->insert('data_alamat', $id);
-        $this->db->insert('data_biaya', $id);
-        //$this->db->trans_complete();
+        $biaya = array('id_siswa'=> $id);
+        $this->db->trans_start();
+        $this->db->where('id_siswa', $id);
+        $this->db->update('data_siswa', $data);
+        $this->db->insert('data_biaya', $biaya);
+        $this->db->trans_complete();
         $this->session->set_userdata($data);
-        $this->session->set_flashdata('sukses', 'Account Ananda '.$r->namalengkap.' berhasil diaktifkan');
+        $this->session->set_flashdata('sukses', 'Verifikasi pengajuan siswa a.n'.$r->namalengkap.' berhasil');
     }
     
     function delete_account($id)
@@ -209,7 +197,7 @@ class Management_mdl extends CI_Model
         return $this->db->query("select id_siswa,a.namalengkap,a.kelamin,i.namalengkap namaibu,c.nohp from data_siswa s 
         join data_anak a on s.id_anak=a.id_saudara
         JOIN data_ibu i on a.id_akun=i.id_akun 
-        JOIN data_account c on a.id_akun=c.id_account LIMIT ".$limit." OFFSET ".$offset."")->result();
+        JOIN data_account c on a.id_akun=c.id_account where is_finalisasi='2' LIMIT ".$limit." OFFSET ".$offset."")->result();
     }
     
     function simpan_slide()

@@ -15,9 +15,10 @@ class Member extends CI_Controller
        $this->load->model('Member_mdl', 'member', true);
        $this->load->library('form_validation');
        $this->load->library('fpdf');
-       require_once(APPPATH.'libraries/apifunction.php');
+       //require_once(APPPATH.'libraries/apifunction.php');
    }
-   
+
+
    function valid_login()
    {
         if($this->session->userdata('member') != 'aktif')
@@ -99,16 +100,13 @@ class Member extends CI_Controller
         }
    }
    
-   function data_siswa()
+   function data_siswa($id)
    {
        if($this->session->userdata('member') == 'aktif')
        {
-          $data = $this->formulir->form_datasiswa($this->session->userdata('id_siswa'));
-          $data['siswa']= $this->formulir->data_siswa($this->session->userdata('id_siswa'));
-          $data['tgl']  = $this->pendaftaran->tanggal();
-          $data['bln']  = $this->pendaftaran->bulan();
-          $data['thn']  = $this->pendaftaran->tahun();
-          $data['klmn'] = $this->pendaftaran->jenis_kelamin();
+          $data = $this->formulir->form_datasiswa($id);
+          $data['siswa']= $this->formulir->data_siswa($id);
+          $data['id'] = $id;
           $data['sidebar']= 'sidebar';
           $data['main'] = 'member/data_siswa';
           $this->load->view('template', $data);
@@ -122,6 +120,7 @@ class Member extends CI_Controller
    
    function update_datasiswa()
    {
+        $id = $this->input->post('id');
         $rules = $this->formulir->validasi_datasiswa();
         $this->form_validation->set_rules($rules);
         if($this->form_validation->run() == false)
@@ -131,7 +130,7 @@ class Member extends CI_Controller
         else
         {
             $this->member->update_datasiswa();
-            redirect(site_url().'member/data_siswa');
+            redirect(site_url().'member/data_siswa/'.$id);
         }
    }
    
@@ -294,6 +293,7 @@ class Member extends CI_Controller
 
           $data = $this->formulir->form_dataanak();
           $data['dataAnak'] = $this->member->get_anak_aju("");
+          $data['dataVerif'] = $this->member->get_anak_aju("","AND is_finalisasi=2");
           $data['sidebar'] = 'sidebar';
           $data['main']    = 'member/ajuan_finalisasi';
           $this->load->view('template', $data);
@@ -441,13 +441,15 @@ class Member extends CI_Controller
         $this->load->view('template', $data);
    }
    
-   function data_biaya()
+   function data_biaya($id)
    {
         if($this->session->userdata('member') == 'aktif')
         {
-          $data['biaya']   = $this->member->view_databiaya();
+          $data['dt_periode'] = $this->formulir->get_periode_aktif();
+          $data['biaya']   = $this->member->view_databiaya($id);
           $data['sidebar'] = 'sidebar';
           $data['main']    = 'member/data_biaya';
+          $data['id']    = $id;
           $this->load->view('template', $data);
         }
         else
@@ -458,9 +460,10 @@ class Member extends CI_Controller
    
    function update_databiaya()
    {
+
         $this->valid_login();
-        $this->member->update_databiaya();
-        redirect(site_url().'member/data_biaya');    
+        $this->member->update_databiaya($this->input->post('id'));
+        redirect(site_url().'member/data_biaya/'.$this->input->post('id'));    
    }
 
    function kartu_observasi()

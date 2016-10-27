@@ -41,13 +41,19 @@ $total = $data_account + $data_siswa;
                         <h4><?php echo $this->session->userdata('email') ?></h4>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href=<?=base_url("cetak/akun")?> class="btn btn-info" target='_blank'> <i class="fa fa-print"></i> Cetak Akun</a>
+                    </div>
+                </div>
                 <?php } ?>
             </div>
         </div>
 
         <?php 
-        $jml = $this->member->get_jml_aju();
-        if($this->session->userdata('member') == 'aktif'){ ?>
+        
+        if($this->session->userdata('member') == 'aktif'){ $jml = $this->member->get_jml_aju();?>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Finalisasi Ajuan Siswa</h3>
@@ -59,7 +65,7 @@ $total = $data_account + $data_siswa;
                         dan menampilkan cetak pembayaran.</p>
                     </div>
                     <div class="col-md-6">
-                        <a href=<?=base_url("member/finalisasi")?> class="btn btn-primary"> <i class="fa fa-plus-circle"></i> Finalisasi Ajuan</a>
+                        <a href=<?=base_url("member/finalisasi")?> class="btn btn-primary"> <i class="fa fa-check"></i> Finalisasi Ajuan</a>
                     </div>
                 </div>
             </div>
@@ -67,8 +73,9 @@ $total = $data_account + $data_siswa;
         <?php } ?>
 
         <?php 
-        $jml = $this->member->get_jml_aju();
-        if($this->session->userdata('member') == 'aktif'){ ?>
+        
+        if($this->session->userdata('member') == 'aktif'){
+        $jml = $this->member->get_jml_aju(); ?>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">Pengajuan Pendaftaran Siswa</h3>
@@ -82,7 +89,7 @@ $total = $data_account + $data_siswa;
                         <h3> <?=$jml->jml?> Siswa</h3>
                     </div>
                     <div class="col-md-6">
-                        <a href=<?=base_url("member/ajukan")?> class="btn btn-success"> <i class="fa fa-plus-circle"></i> Lakukan Ajuan Pendaftaran</a>
+                        <a href=<?=base_url("member/ajukan")?> class="btn btn-success"> <i class="fa fa-list-ol"></i> Lakukan Ajuan Pendaftaran</a>
                     </div>
                 </div>
             </div>

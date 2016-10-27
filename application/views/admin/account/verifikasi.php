@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-head-line">DATA ACCOUNT</h1>
-        <h1 class="page-subhead-line">Menampilkan semua pendaftar account baru. </h1>
+        <h1 class="page-head-line">DATA PENGAJUAN SISWA</h1>
+        <h1 class="page-subhead-line">Menampilkan semua pengajuan siswa baru tahun <?=date("Y")?>. </h1>
     </div>
 </div>
 
@@ -43,7 +43,7 @@
                                 <td>".$r->nohp."</td>
                                 <td>".dateindo($r->tgl_daftar)." | </td>
                                 <td>".$r->kd_unik."</td>
-                                <td>".anchor('management/aktifkan/'.$r->id_siswa,img(base_url().'assets/images/check.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan mengaktifkan account ini?\')'))."</td>
+                                <td>".anchor('management/aktifkan/'.$r->id_siswa,img(base_url().'assets/images/check.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan verifikasi data siswa ini?\')'))."</td>
                                 <td>".anchor('management/delete_account/'.$r->id_siswa,img(base_url().'assets/images/delete.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan menghapus data ini?\')'))."</td>
                             </tr>";
                         $no++;

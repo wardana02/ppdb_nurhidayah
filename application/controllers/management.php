@@ -12,7 +12,7 @@ class Management extends CI_Controller
        parent::__construct();
        $this->load->model('Management_mdl', 'management', true);
        $this->load->library('pagination');
-       require_once(APPPATH.'libraries/apifunction.php');
+       //require_once(APPPATH.'libraries/apifunction.php');
    }
     
    function index()
@@ -36,6 +36,7 @@ class Management extends CI_Controller
    {
         $data['statis'] = $this->management->get_statis();
         $data['main']   = 'admin/statis/statis';
+        $data['e'] = "active-menu";
         $this->load->view('admin', $data);
    }
    
@@ -249,12 +250,13 @@ class Management extends CI_Controller
         $data['page']  = $this->pagination->create_links();
         $data['account'] = $this->management->view_account($limit, $offset);
         $data['main']  = 'admin/account/verifikasi';
+        $data['c'] = "active-menu";
         $this->load->view('admin', $data);
    }
    
    function activasi()
    {
-    
+        
         $page  = $this->uri->segment(3);
         $limit = 10;
 		if(!$page):
@@ -292,7 +294,17 @@ class Management extends CI_Controller
         $data['page']  = $this->pagination->create_links();
         $data['account'] = $this->management->view_account2($limit, $offset);
         $data['main']  = 'admin/account/activasi';
+        $data['b'] = "active-menu";
         $this->load->view('admin', $data);
+   }
+
+   function aktif_acc($id,$c)
+   {
+        $data = array('aktif'=> $c);
+        $this->db->where('id_account',$id);
+        $this->db->update('data_account', $data);
+        $this->session->set_flashdata('sukses', 'Ubah Aktifasi Account Berhasil');
+        redirect('management/activasi', 'refresh');
    }
    
    function aktifkan()
@@ -350,6 +362,7 @@ class Management extends CI_Controller
         
         $data['pendaftar'] = $this->management->data_pendaftar($limit, $offset);
         $data['main']  = 'admin/account/data_pendaftar';
+        $data['d'] = "active-menu";
         $this->load->view('admin', $data);
    }
    
@@ -391,6 +404,7 @@ class Management extends CI_Controller
         $data['page']  = $this->pagination->create_links();
         $data['slide'] = $this->management->view_slide($limit, $offset);
         $data['main'] = 'admin/slideshow';
+        $data['f'] = "active-menu";
         $this->load->view('admin', $data);
    }
    

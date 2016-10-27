@@ -18,6 +18,12 @@ if(!empty($pesan)){
 </div>
 <?php } ?>
 
+<div class="well">
+<legend>Data Anak</legend>
+
+<div align="justify"> Berikut ditampilkan data anak yang sudah terdaftar kedalam akun ini. Kemudian untuk mengajukan pendaftaran
+atas nama anak yang sudah tercantum di daftar anak ini, silahkan dengan mengeklik tombol <a href=<?=base_url("member/ajukan")?> class='btn btn-success'> Lakukan Ajuan Pendaftaran</a></div>
+</div>
 
 <div class="well">
 <table id="example1" class="table table-hover table-striped">

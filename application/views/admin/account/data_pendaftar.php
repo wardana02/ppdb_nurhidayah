@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-head-line">DATA PENDAFTARAN</h1>
-        <h1 class="page-subhead-line">Menampilkan semua pendaftar aktif. </h1>
+        <h1 class="page-head-line">DATA PENDAFTARAN SUDAH VERIFIKASI</h1>
+        <h1 class="page-subhead-line">Menampilkan semua calon siswa yang sudah diverifikasi. </h1>
         <div class="pull-right" style="margin-top: -75px;">
             <a href="<?php echo site_url().'management/download_excel' ?>" class="btn btn-default glyphicon glyphicon-download"> EXCEL</a>
         </div>

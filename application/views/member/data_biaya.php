@@ -19,6 +19,7 @@ if(!empty($pesan)){
 
 <br />
 <form name="pendaftaran" method="POST" action="<?php echo site_url().'member/update_databiaya' ?>" class="form-horizontal">
+  
   <fieldset>
     <legend>Kesepakatan Pembiayaan</legend>
 <div class="table-responsive">
@@ -61,7 +62,10 @@ if(!empty($pesan)){
                     <div class="col-md-6">
                         <div class="input-group">
                             <span class="input-group-addon">Rp. </span>
-                            <?php echo form_input(array('name'=>'spp2', 'value'=>$spp2, 'id'=>'spp2', 'class'=>'form-control')) ?>
+                            <?php 
+                            echo form_input(array('name'=>'spp2', 'value'=>$spp2, 'id'=>'spp2', 'class'=>'form-control'));
+                            echo form_hidden('id', $id);
+                             ?>
                             <span class="input-group-addon">,00</span>
                         </div>
                     </div>
@@ -157,9 +161,9 @@ if(!empty($pesan)){
                 </td>
             </tr>
             <?php
-            $seragam = 450000;
-            $buku    = 200000;
-            $kegiatan= 300000;
+            $seragam = $dt_periode->biaya_seragam;
+            $buku    = $dt_periode->biaya_buku;
+            $kegiatan= $dt_periode->biaya_kegiatan;
             $total = $seragam + $buku + $kegiatan + $biaya->spp + $biaya->gedung + $biaya->grawadi;
             ?>
             <tr>

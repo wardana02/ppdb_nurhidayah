@@ -7,8 +7,8 @@ function tanggal($tgl)
 ?>
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-head-line">DATA ACCOUNT</h1>
-        <h1 class="page-subhead-line">Menampilkan semua pendaftar account baru. </h1>
+        <h1 class="page-head-line">DATA ACCOUNT ORANG TUA</h1>
+        <h1 class="page-subhead-line">Menampilkan semua daftar account orang tua siswa. </h1>
     </div>
 </div>
 
@@ -35,7 +35,7 @@ function tanggal($tgl)
                         <th>Tanggal Daftar</th>
                         <th>Terakhir Login</th>
                         <th>Status</th>
-                        <th colspan="2">Aksi</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +43,13 @@ function tanggal($tgl)
                     $no=1 + $this->uri->segment(3);
                     foreach ($account as $r)
                     {
+                        if($r->aktif==1){
+                            $stat = "<label class='label label-success'>Aktif</label>";
+                            $tombol = "<a href= ".site_url('management/aktif_acc/'.$r->id_account.'/0')." class='btn btn-warning'> Non Aktifkan</a>";
+                        }else{
+                            $stat = "<label class='label label-danger'>Non Aktif</label>";
+                            $tombol = "<a href= ".site_url('management/aktif_acc/'.$r->id_account.'/1')." class='btn btn-success'> Aktifkan</a>";
+                        }
                         echo "<tr>
                                 <td>".$no."</td>
                                 <td>".$r->nik."</td>
@@ -51,9 +58,8 @@ function tanggal($tgl)
                                 <td>".$r->nohp."</td>
                                 <td>".dateindo($r->tgldaftar)."</td>
                                 <td>".$r->last_log."</td>
-                                <td>".$r->aktif."</td>
-                                <td>".anchor('management/aktifkan/'.$r->id_account,img(base_url().'assets/images/check.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan mengaktifkan account ini?\')'))."</td>
-                                <td>".anchor('management/delete_account/'.$r->id_account,img(base_url().'assets/images/delete.png'), array('onclick'=>'return confirm(\'Apakah Anda yakin akan menghapus data ini?\')'))."</td>
+                                <td>".$stat."</td>
+                                <td>". $tombol ."</td>
                             </tr>";
                         $no++;
                     }

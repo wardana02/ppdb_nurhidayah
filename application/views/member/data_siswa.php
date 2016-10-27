@@ -12,7 +12,7 @@ if(!empty($pesan)){
   <button type="button" class="close" data-dismiss="alert"><span class="btn glyphicon glyphicon-remove"></span></button>
   <b><?php echo $pesan; ?></b>
   <div class="pull-right">
-    <a href="<?php echo site_url().'member/data_ayah' ?>" class="btn btn-xs glyphicon glyphicon-forward"> LANJUT </a>
+    <a href=<?php echo site_url("member/data_biaya/$id") ?> class="btn btn-xs glyphicon glyphicon-forward"> LANJUT </a>
   </div>
 </div>
 <?php } ?>
@@ -20,102 +20,19 @@ if(!empty($pesan)){
 <form name="siswa" id="form_siswa" enctype="multipart/form-data" method="POST" action="<?php echo site_url().'member/update_datasiswa' ?>" class="form-horizontal">
   <fieldset>
     <legend>Data Siswa</legend> 
-    <div class="form-group">
-      <label for="namalengkap" class="col-md-3 control-label">NIK</label>
-      <div class="col-md-9">
-        <?php 
-            echo form_input($nik); 
-            echo form_error('nik','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
-        ?>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="namalengkap" class="col-md-3 control-label">Nama Lengkap</label>
-      <div class="col-md-9">
-        <?php 
-            echo form_input($namalengkap); 
-            echo form_error('namalengkap','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
-        ?>
-      </div>
-    </div>
+    
     <div class="form-group">
       <label for="namalengkap" class="col-md-3 control-label">Nama Panggilan</label>
       <div class="col-md-9">
         <?php 
+            echo form_hidden('id', $id);
             echo form_input($namapanggilan); 
             echo form_error('namapanggilan','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
         ?>
       </div>
     </div>
-    <div class="form-group">
-      <label for="namalengkap" class="col-md-3 control-label">Tempat Lahir</label>
-      <div class="col-md-9">
-        <?php 
-            echo form_input($tempatlahir); 
-            echo form_error('tempatlahir','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
-        ?>
-      </div>
-    </div>
-    <?php
-    $t = explode('-',$siswa->tgllahir);
-    ?>
-    <div class="form-group">
-      <label for="tgllahir" class="col-md-3 control-label">Tanggal lahir</label>
-      <div class="col-md-3">
-        <?php 
-            echo form_dropdown('tanggal', $tgl, $t[2], 'class=form-control'); 
-            echo form_error('tanggal','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');    
-        ?>
-      </div>
-      <div class="col-md-3">
-        <?php 
-            echo form_dropdown('bulan', $bln, $t[1], 'class=form-control'); 
-            echo form_error('bulan','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
-        ?>
-      </div>
-      <div class="col-md-3">
-        <?php 
-            echo form_dropdown('tahun', $thn, $t[0], 'class=form-control'); 
-            echo form_error('tahun','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');    
-        ?>
-      </div>
-    </div>
-    <div class="form-group">
-        <label for="kelamin" class="col-md-3 control-label">Jenis Kelamin</label>
-        <div class="col-md-9">
-            <?php 
-            echo form_dropdown('jenis_kelamin', $klmn, $siswa->kelamin, 'class="form-control"'); 
-            echo form_error('jenis_kelamin','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');    
-        ?>
-        </div>
-    </div>
-    <div class="form-group">
-      <label for="namaibu" class="col-md-3 control-label">Nama Ibu</label>
-      <div class="col-md-9">
-        <?php 
-            echo form_input($namaibu);
-            echo form_error('namaibu','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
-        ?>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="nohp" class="col-md-3 control-label">Nomor Handphone</label>
-      <div class="col-md-9">
-        <?php 
-            echo form_input($nohp); 
-            echo form_error('nohp','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');    
-        ?>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="email" class="col-md-3 control-label">Alamat Email</label>
-      <div class="col-md-9">
-        <?php 
-            echo form_input($email); 
-            echo form_error('email','<div class=\'alert alert-dismissable alert-danger\'>', '</div>');
-        ?>
-      </div>
-    </div>
+    
+
     <div class="form-group">
       <label for="email" class="col-md-3 control-label">Asal Sekolah</label>
       <div class="col-md-9">

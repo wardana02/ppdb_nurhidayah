@@ -18,6 +18,11 @@ if(!empty($pesan)){
 </div>
 <?php } ?>
 
+<div class="well">
+<legend>Data Ajuan Pendaftaran</legend>
+
+<div align="justify"> Berikut merupakan data Anak Yang ada didalam akun anda, setelah melakukan ajuan pendaftaran kemudian melakukan Finalisasi pengajuan dengan mengKlik tombol berikut <br><a href=<?=base_url("member/finalisasi")?> class='btn btn-success'> Finalisasi Ajuan Pendaftaran</a></div>
+</div>
 
 <div class="well">
     <legend>Data Anak</legend>
@@ -54,7 +59,7 @@ if(!empty($pesan)){
         echo "<td> <a class='btn btn-primary'><i class='fa fa-edit'></i> Proses Pengajuan SDIT</a></td>";
       }
       elseif(($umur>=6)&&($umur<8)){
-        echo "<td> <a href='".base_url('member/ajukan_anak/'.$dt->id_saudara)."' class='btn btn-success'><i class='fa fa-edit'></i> Ajukan Pendaftaran</a></td>";
+        echo "<td> <a href='".base_url('member/ajukan_anak/'.$dt->id_saudara)."' onclick='return confirm_delete()' class='btn btn-success'><i class='fa fa-edit'></i> Ajukan Pendaftaran</a></td>";
       }else{
         echo "<td> <a class='btn btn-warning'><i class='fa fa-edit'></i> Usia Melebihi</a></td>";
       }

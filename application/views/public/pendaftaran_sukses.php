@@ -34,7 +34,7 @@
 	        $response = sendsms($nohp, $pesan);
             */
             ?>
-            <a href="" class="btn btn-primary"> Cetak Kartu Akun</a>
+            <a href=<?=base_url("cetak/akun")?> class="btn btn-primary" target='_blank'> <i class="fa fa-print"></i> Cetak Akun</a>
             
             </div>
         </div>

@@ -11,6 +11,13 @@ class Member_mdl extends CI_Model
     {
         parent::__construct();
     }
+
+       
+   function get_data_akun()
+    {
+        $this->db->where('id_account', $this->session->userdata('id_akun'));
+        return $this->db->get('data_account')->row();
+    }
     
     public function cek_data_login($username, $password)
     {
@@ -52,9 +59,9 @@ class Member_mdl extends CI_Model
         return $this->db->get_where('data_saudara', array('id_siswa'=>$this->session->userdata('id_siswa')))->result();
     }
     
-    function view_databiaya()
+    function view_databiaya($id)
     {
-        return $this->db->get_where('data_biaya', array('id_siswa'=>$this->session->userdata('id_siswa')))->row();
+        return $this->db->get_where('data_biaya', array('id_siswa'=>$id))->row();
     }
 
     function get_anak()
@@ -69,10 +76,16 @@ class Member_mdl extends CI_Model
         return $DATA;
     }
 
-    function get_anak_aju($j)
+    function get_anak_aju($j,$c='')
     {
         $id = $this->session->userdata('id_akun');
-        $DATA = $this->db->query("SELECT id_siswa,is_finalisasi,a.id_saudara,a.namalengkap,a.kelamin,a.tgl_lahir,s.kd_unik FROM data_anak a ".$j." join data_siswa s on a.id_saudara=s.id_anak WHERE id_akun='$id'")->result();
+        $DATA = $this->db->query("SELECT tgl_verifikasi,id_siswa,is_finalisasi,a.id_saudara,a.namalengkap,a.kelamin,a.tgl_lahir,s.kd_unik FROM data_anak a ".$j." join data_siswa s on a.id_saudara=s.id_anak WHERE id_akun='$id' ".$c ." ")->result();
+        return $DATA;
+    }
+
+    function get_siswa_daftar($id)
+    {
+        $DATA = $this->db->query("SELECT * FROM data_siswa s JOIN data_anak a ON s.id_anak=a.id_saudara WHERE s.id_siswa='$id'")->row();
         return $DATA;
     }
 
@@ -142,10 +155,8 @@ class Member_mdl extends CI_Model
     
     public function update_datasiswa()
     {
-        $thn = $this->input->post('tahun');
-        $bln = $this->input->post('bulan');
-        $tgl = $this->input->post('tanggal');
         
+        $id = $this->input->post('id');
         //UPLOAD FOTO
         $config['upload_path']   = 'foto';
         $config['allowed_types'] = 'jpg|png';
@@ -164,13 +175,7 @@ class Member_mdl extends CI_Model
             }
             
             $this->hapus_foto();
-            $data = array('nik'=>$this->input->post('nik'),
-                      'namalengkap'=>$this->input->post('namalengkap'),
-                      'namapanggilan'=>$this->input->post('namapanggilan'),
-                      'tempatlahir'=>$this->input->post('tempatlahir'),
-                      'tgllahir'=>$thn.'-'.$bln.'-'.$tgl,
-                      'namaibu'=>$this->input->post('namaibu'),
-                      'email'=>$this->input->post('email'),
+            $data = array('namapanggilan'=>$this->input->post('namapanggilan'),
                       'asalsekolah'=>$this->input->post('asalsekolah'),
                       'alamatsekolah'=>$this->input->post('alamatsekolah'),
                       'bb'=>$this->input->post('bb'),
@@ -179,19 +184,13 @@ class Member_mdl extends CI_Model
                       'km'=>$this->input->post('km'),
                       'kps'=>$this->input->post('kps1').'|'.$this->input->post('kps2'),
                       'foto'=>$filedoks);
-            $this->db->where('id_siswa', $this->session->userdata('id_siswa'));
+            $this->db->where('id_siswa', $id);
             $this->db->update('data_siswa', $data);
             $this->session->set_flashdata('update_siswa', 'Perubahan data berhasil disimpan');
         }
         else
         {
-            $data = array('nik'=>$this->input->post('nik'),
-                      'namalengkap'=>$this->input->post('namalengkap'),
-                      'namapanggilan'=>$this->input->post('namapanggilan'),
-                      'tempatlahir'=>$this->input->post('tempatlahir'),
-                      'tgllahir'=>$thn.'-'.$bln.'-'.$tgl,
-                      'namaibu'=>$this->input->post('namaibu'),
-                      'email'=>$this->input->post('email'),
+            $data = array('namapanggilan'=>$this->input->post('namapanggilan'),
                       'asalsekolah'=>$this->input->post('asalsekolah'),
                       'alamatsekolah'=>$this->input->post('alamatsekolah'),
                       'bb'=>$this->input->post('bb'),
@@ -199,7 +198,7 @@ class Member_mdl extends CI_Model
                       'jarak'=>$this->input->post('jarak'),
                       'km'=>$this->input->post('km'),
                       'kps'=>$this->input->post('kps1').'|'.$this->input->post('kps2'),);
-            $this->db->where('id_siswa', $this->session->userdata('id_siswa'));
+            $this->db->where('id_siswa', $id);
             $this->db->update('data_siswa', $data);
             $this->session->set_flashdata('update_siswa', 'Perubahan data berhasil disimpan');
         }
@@ -284,7 +283,7 @@ class Member_mdl extends CI_Model
         $this->session->set_flashdata('update_anak', 'Perubahan data berhasil disimpan');
     }
     
-    function update_databiaya()
+    function update_databiaya($id)
     {
         $spp1     = $this->input->post('spp');
         $spp2     = $this->uang($this->input->post('spp2'));
@@ -296,7 +295,8 @@ class Member_mdl extends CI_Model
         $data = array('spp'=>!empty($spp2) ? $spp2 : $spp1,
                       'gedung'=>!empty($gedung2) ? $gedung2 : $gedung1,
                       'grawadi'=>!empty($grawadi2) ? $grawadi2 : $grawadi1);
-        $this->db->where('id_siswa', $this->session->userdata('id_siswa'));
+        //print_r($data);echo "=> $id";exit();
+        $this->db->where('id_siswa', $id);
         $this->db->update('data_biaya', $data);
         $this->session->set_flashdata('update_biaya', 'Perubahan data berhasil disimpan');
     }

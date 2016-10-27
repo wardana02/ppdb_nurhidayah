@@ -86,7 +86,7 @@ class Akun_mdl extends CI_Model
                         array('field'=>'nik', 'label'=>'NIK Orang Tua', 'rules'=>'trim|required|numeric|min_length[16]|max_length[16]|xss_clean'),
                         array('field'=>'namalengkap', 'label'=>'Nama Lengkap', 'rules'=>'trim|required|min_length[3]|xss_clean'),
                         array('field'=>'nohp', 'label'=>'Nomor HP', 'rules'=>'trim|required|numeric|min_length[10]|max_length[14]|xss_clean'),
-                        array('field'=>'email', 'label'=>'Alamat Email', 'rules'=>'trim|required|valid_email|is_unique[data_account.email]|is_unique[data_siswa.email]|xss_clean'),
+                        array('field'=>'email', 'label'=>'Alamat Email', 'rules'=>'trim|required|valid_email|is_unique[data_account.email]|xss_clean'),
                         array('field'=>'security_code', 'label'=>'Kode Captcha', 'rules'=>'trim|required|callback_check_captcha')
                         );
                           
@@ -157,11 +157,12 @@ class Akun_mdl extends CI_Model
     
     function simpan()
     {
+        $uname = explode('@', $this->input->post('email'));
         $data = array('namalengkap'=>$this->input->post('namalengkap'),
                       'nik'=>$this->input->post('nik'),
                       'nohp'=>$this->input->post('nohp'),
                       'email'=>$this->input->post('email'),
-                      'username'=>$this->input->post('email'),
+                      'username'=>$uname[0],
                       'password'=>$this->password($this->input->post('nohp')),
                       'tgldaftar'=>date('Y-m-d H:i:s'),
                       'aktif'=> '1'

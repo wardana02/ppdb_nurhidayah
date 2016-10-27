@@ -24,6 +24,7 @@ class Admin extends CI_Controller
         $data = $this->admin->form_add();
         $data['admin'] = $this->admin->get_admin();
         $data['main']  = 'admin/admin';
+        $data['g'] = "active-menu";
         $this->load->view('admin', $data);
     }
     

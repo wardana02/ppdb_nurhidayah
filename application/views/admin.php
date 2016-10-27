@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<?php error_reporting(0);?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -31,7 +32,7 @@
             </div>
 
             <div class="header-right">
-                <a href="#" class="btn btn-info" title="New Message"><b> Sisa kredit SMS <?php echo cekkredit(); ?> </b><i class="fa fa-envelope-o fa-2x"></i></a>
+                <a href="#" class="btn btn-info" title="New Message"><b> Sisa kredit SMS <?php //echo cekkredit(); ?> </b><i class="fa fa-envelope-o fa-2x"></i></a>
                 <a href="#" class="btn btn-primary" title="New Task"><b>40 </b><i class="fa fa-bars fa-2x"></i></a>
                 <a href="<?php echo site_url().'login_admin/logout' ?>" class="btn btn-danger" title="Logout"><i class="fa fa-exclamation-circle fa-2x"></i></a>
             </div>
@@ -51,7 +52,7 @@
                         </div>
                     </li>
 
-                    <li><a class="active-menu" href="<?php echo site_url().'management' ?>"><i class="fa fa-dashboard "></i>Dashboard</a>                    </li>
+                    <li><a class="<?=$a?>" href="<?php echo site_url().'management' ?>"><i class="fa fa-dashboard "></i>Dashboard</a>                    </li>
                     <!--
                     <li>
                         <a href="#"><i class="fa fa-desktop "></i>Management SMS <span class="fa arrow"></span></a>
@@ -64,15 +65,15 @@
                     </li>
                     -->
                     <li>
-                        <a href="<?php echo site_url().'management/activasi' ?>"><i class="fa fa-yelp "></i>Aktivasi Account</a>
+                        <a class="<?=$b?>" href="<?php echo site_url().'management/activasi' ?>"><i class="fa fa-yelp "></i>Aktivasi Account</a>
                     </li>
                     <li>
-                        <a href="<?php echo site_url().'management/verifikasi' ?>"><i class="fa fa-desktop "></i>Verifikasi Pengajuan</a>
+                        <a class="<?=$c?>" href="<?php echo site_url().'management/verifikasi' ?>"><i class="fa fa-desktop "></i>Verifikasi Pengajuan</a>
                     </li>
-                    <li><a href="<?php echo site_url().'management/data_pendaftar' ?>"><i class="fa fa-flash "></i>Data Pendaftar </a></li>
-                    <li><a href="<?php echo site_url().'management/statis' ?>"><i class="fa fa-bicycle "></i>Halaman Statis</a></li>
-                    <li><a href="<?php echo site_url().'management/slideshow' ?>"><i class="fa fa-square-o "></i>Slideshow</a></li>
-                    <li><a href="<?php echo site_url().'admin' ?>"><i class="fa fa-bug "></i>Management Admin</a></li>
+                    <li><a class="<?=$d?>" href="<?php echo site_url().'management/data_pendaftar' ?>"><i class="fa fa-flash "></i>Data Pendaftar </a></li>
+                    <li><a class="<?=$e?>" href="<?php echo site_url().'management/statis' ?>"><i class="fa fa-bicycle "></i>Halaman Statis</a></li>
+                    <li><a class="<?=$f?>" href="<?php echo site_url().'management/slideshow' ?>"><i class="fa fa-square-o "></i>Slideshow</a></li>
+                    <li><a class="<?=$g?>" href="<?php echo site_url().'admin' ?>"><i class="fa fa-bug "></i>Management Admin</a></li>
                 </ul>
             </div>
 

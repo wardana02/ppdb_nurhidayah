@@ -48,6 +48,12 @@
     
     </script>
 
+    <script type="text/javascript">
+      function confirm_delete() {
+        return confirm('Apakh Anda Yakin ?');
+      }
+    </script>
+
 </head>
 
 <body>

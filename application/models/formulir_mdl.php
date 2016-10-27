@@ -26,9 +26,9 @@ class Formulir_mdl extends CI_Model
     
     function data_siswa($id_siswa)
     {
-        echo "ID SISWA :> ".$id_siswa."<br>";
-        $data = $this->db->query("SELECT * FROM data_siswa WHERE id_siswa='$id_siswa'")->row();
-        //$data = $this->db->get_where('data_siswa', array('id_siswa'=>$id_siswa))->row();
+        //echo "ID SISWA :> ".$id_siswa."<br>";
+        //$data = $this->db->query("SELECT * FROM data_siswa WHERE id_siswa='$id_siswa'")->row();
+        $data = $this->db->get_where('data_siswa', array('id_siswa'=>$id_siswa))->row();
         //print_r($data);exit();
         return $data;
 
@@ -37,14 +37,7 @@ class Formulir_mdl extends CI_Model
     function form_datasiswa($id_siswa)
     {
         $d = $this->data_siswa($id_siswa);
-        $namalengkap = array('name'=>'namalengkap', 'value'=>$d->namalengkap, 'class'=>'form-control');
-        $nik = array('name'=>'nik', 'value'=>$d->nik, 'class'=>'form-control');
         $namapanggilan = array('name'=>'namapanggilan', 'value'=>!empty($d->namapanggilan) ? $d->namapanggilan : $this->input->post('namapanggilan'), 'class'=>'form-control');
-        $tempatlahir = array('name'=>'tempatlahir', 'value'=>$d->tempatlahir, 'class'=>'form-control');
-        $tgllahir = array('name'=>'tgllahir', 'value'=>$d->tgllahir, 'class'=>'form-control');
-        $namaibu = array('name'=>'namaibu', 'value'=>$d->namaibu, 'class'=>'form-control');
-        $nohp = array('name'=>'nohp', 'value'=>$d->nohp, 'class'=>'form-control');
-        $email = array('name'=>'email', 'value'=>$d->email, 'class'=>'form-control');
         $asalsekolah = array('name'=>'asalsekolah', 'value'=>$d->asalsekolah, 'class'=>'form-control');
         $alamatsekolah = array('name'=>'alamatsekolah', 'value'=>$d->alamatsekolah, 'class'=>'form-control');
         $bb = array('name'=>'bb', 'value'=>$d->bb, 'class'=>'form-control');
@@ -53,14 +46,7 @@ class Formulir_mdl extends CI_Model
         $km = array('name'=>'km', 'value'=>$d->km, 'class'=>'form-control');
         
         $r = array();
-        $r['nik'] = $nik;
-        $r['namalengkap'] = $namalengkap;
         $r['namapanggilan'] = $namapanggilan;
-        $r['tempatlahir'] = $tempatlahir;
-        $r['tgllahir'] = $tgllahir;
-        $r['namaibu'] = $namaibu;
-        $r['nohp'] = $nohp;
-        $r['email'] = $email;
         $r['asalsekolah'] = $asalsekolah;
         $r['alamatsekolah'] = $alamatsekolah;
         $r['bb'] = $bb;
@@ -73,17 +59,7 @@ class Formulir_mdl extends CI_Model
     
     function validasi_datasiswa()
     {
-        $validasi = array(array('field'=>'nik', 'label'=>'NIK', 'rules'=>'trim|numeric|min_length[12]|max_length[16]|xss_clean'),
-                          array('field'=>'namalengkap', 'label'=>'Nama Lengkap', 'rules'=>'trim|required|xss_clean'),
-                          array('field'=>'namapanggilan', 'label'=>'Nama Panggilan', 'rules'=>'trim|max_length[10]|xss_clean'),
-                          array('field'=>'tempatlahir', 'label'=>'Tempat Lahir', 'rules'=>'trim|max_length[30]|xss_clean'),
-                          array('field'=>'tanggal', 'label'=>'Tanggal Lahir', 'rules'=>'trim|required|xss_clean'),
-                          array('field'=>'bulan', 'label'=>'Bulan Lahir', 'rules'=>'trim|required|xss_clean'),
-                          array('field'=>'tahun', 'label'=>'Tahun Lahir', 'rules'=>'trim|required|xss_clean'),
-                          array('field'=>'jenis_kelamin', 'label'=>'Jenis Kelamin', 'rules'=>'trim|required|xss_clean'),
-                          array('field'=>'namaibu', 'label'=>'Nama Ibu', 'rules'=>'trim|required|max_length[100]|xss_clean'),
-                          array('field'=>'nohp', 'label'=>'Nomor HP', 'rules'=>'trim|required|numeric|min_length[10]|max_length[14]|xss_clean'),
-                          array('field'=>'email', 'label'=>'Alamat Email', 'rules'=>'trim|required|valid_email|xss_clean'),
+        $validasi = array(array('field'=>'namapanggilan', 'label'=>'Nama Panggilan', 'rules'=>'trim|max_length[10]|xss_clean'),
                           array('field'=>'asalsekolah', 'label'=>'Asal Sekolah', 'rules'=>'trim|max_length[100]|xss_clean'),
                           array('field'=>'alamatsekolah', 'label'=>'Alamat Sekolah', 'rules'=>'trim|max_length[200]|xss_clean'),
                           array('field'=>'tb', 'label'=>'Tinggi Badan', 'rules'=>'trim|min_length[2]|numeric|xss_clean'),
